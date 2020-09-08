@@ -1,4 +1,5 @@
 <script>
+  import { tick } from "svelte";
   import Product from "./Product.svelte";
   import Modal from "./Modal.svelte";
 
@@ -16,6 +17,8 @@
     }
   ];
 
+  let text = "This is some dummy text!";
+
   const addToCart = e => {
     console.log("e: ", e);
     console.log("detail: ", e.detail);
@@ -23,6 +26,26 @@
   };
   const deleteProduct = e => {
     console.log("detail: ", e.detail);
+  };
+
+  const transform = e => {
+    if (e.which !== 9) {
+      return;
+    }
+    e.preventDefault();
+    const selectionStart = e.target.selectionStart;
+    const selectionEnd = e.target.selectionEnd;
+    const value = e.target.value;
+
+    text =
+      value.slice(0, selectionStart) +
+      value.slice(selectionStart, selectionEnd).toUpperCase() +
+      value.slice(selectionEnd);
+
+    tick().then(() => {
+      e.target.selectionStart = selectionStart;
+      e.target.selectionEnd = selectionEnd;
+    });
   };
 </script>
 
@@ -46,3 +69,5 @@ so default usable variable below would be "didAgree", but instead, we've assigne
     </button>
   </Modal>
 {/if}
+
+<textarea rows="5" value={text} on:keydown={transform} />
