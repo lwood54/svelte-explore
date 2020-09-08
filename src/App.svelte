@@ -70,4 +70,4 @@ so default usable variable below would be "didAgree", but instead, we've assigne
   </Modal>
 {/if}
 
-<textarea rows="5" value={text} on:keydown={transform} />
+<textarea rows="6" value={text} on:keydown={transform} />
